@@ -472,10 +472,11 @@ class Figure(CDSObject):
                         attrs = ['text_color', 'text_size']
                         vals.update({'text': {'value': 'y'}})
                     else:
-                        raise Exception(
-                            'Sorry, unsupported marker:'
-                            + f' "{marker}". Please report to GitHub.')
-                        return
+                        # raise Exception(
+                        #     'Sorry, unsupported marker:'
+                        #     + f' "{marker}". Please report to GitHub.')
+                        # return
+                        continue
                 # set kwglyph values
                 kwglyph['y'] = source_id
                 for v in attrs:
@@ -499,8 +500,9 @@ class Figure(CDSObject):
                         kwglyph[u] = max(
                             1, kwglyph[u] + val)
                     else:
-                        raise Exception(
-                            f'{u} for {marker} is not set but needs to be set')
+                        # raise Exception(
+                        #     f'{u} for {marker} is not set but needs to be set')
+                        continue
                 glyph_fnc = getattr(self.figure, fnc_name)
                 # append renderer
                 self._figure_append_renderer(

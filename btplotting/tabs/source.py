@@ -9,7 +9,8 @@ from ..tab import BacktraderPlottingTab
 class SourceTab(BacktraderPlottingTab):
 
     def _is_useable(self):
-        return not self._app.is_iplot()
+        # return not self._app.is_iplot()
+        return False
 
     def _getSource(self):
         text = inspect.getsource(

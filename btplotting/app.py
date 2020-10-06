@@ -353,7 +353,10 @@ class BacktraderPlotting(metaclass=bt.MetaParams):
         for t in self.tabs:
             tab = t(self, fp, None)
             if tab.is_useable():
-                panels.append(tab.get_panel())
+                try:
+                    panels.append(tab.get_panel())
+                except:
+                    continue
 
         # set all tabs (filter out None)
         model = Tabs(tabs=list(filter(None.__ne__, panels)))
