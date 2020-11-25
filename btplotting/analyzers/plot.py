@@ -23,6 +23,7 @@ class LivePlotAnalyzer(bt.Analyzer):
         ('lookback', 23),
         ('http_port', 80),
         ('title', None),
+        ('allow_websocket_origin', ['localhost:5006']),
     )
 
     def __init__(self, **kwargs):
@@ -35,7 +36,8 @@ class LivePlotAnalyzer(bt.Analyzer):
             self.p.scheme,
             self._app_cb_build_root_model,
             on_session_destroyed=self._on_session_destroyed,
-            port=self.p.http_port)
+            port=self.p.http_port,
+            allow_websocket_origin=self.p.allow_websocket_origin)
         self._lock = Lock()
         self._clients = {}
         self._app_kwargs = kwargs

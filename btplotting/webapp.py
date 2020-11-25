@@ -12,13 +12,14 @@ from .helper.bokeh import generate_stylesheet
 
 class Webapp:
     def __init__(self, title, html_template, scheme, model_factory_fnc,
-                 on_session_destroyed=None, port=80):
+                 on_session_destroyed=None, port=80, allow_websocket_origin=['localhost:5006']):
         self._title = title
         self._html_template = html_template
         self._scheme = scheme
         self._model_factory_fnc = model_factory_fnc
         self._port = port
         self._on_session_destroyed = on_session_destroyed
+        self._allow_websocket_origin = allow_websocket_origin
 
     def start(self, ioloop=None):
         '''
@@ -43,12 +44,13 @@ class Webapp:
             model = self._model_factory_fnc(doc)
             doc.add_root(model)
 
-        self._run_server(make_document, ioloop=ioloop, port=self._port)
+        self._run_server(make_document, ioloop=ioloop, port=self._port, 
+                        allow_websocket_origin=self._allow_websocket_origin)
 
     @staticmethod
     def _run_server(fnc_make_document, iplot=True,
                     notebook_url='localhost:8889',
-                    port=80, ioloop=None):
+                    port=80, ioloop=None, allow_websocket_origin=['localhost:5006']):
 
         '''
         Runs a Bokeh webserver application. Documents will be created using
@@ -64,7 +66,8 @@ class Webapp:
             apps = {'/': app}
 
             print(f'Open your browser here: http://localhost:{port}')
-            server = Server(apps, port=port, io_loop=ioloop)
+            server = Server(apps, port=port, io_loop=ioloop,
+                            allow_websocket_origin=allow_websocket_origin)
             if ioloop is None:
                 server.run_until_shutdown()
             else:
